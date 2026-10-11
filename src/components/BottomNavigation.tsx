@@ -18,7 +18,7 @@ export function BottomNavigation() {
           end={end}
           className={({ isActive }) =>
             `flex min-h-11 flex-1 flex-col items-center justify-center gap-1 rounded-xl py-1 text-xs font-medium transition-colors ${
-              isActive ? "text-orange" : "text-muted"
+              isActive ? "text-blue" : "text-muted"
             }`
           }
         >

@@ -1,16 +1,9 @@
 import type { Topic } from "../types";
+import { matchTopicFromQuery, topicMappings } from "./topicMappings";
 
-export const topics: Topic[] = [
-  { slug: "getting-angry", label: "Getting Angry" },
-  { slug: "interrupting", label: "Interrupting" },
-  { slug: "bullying", label: "Bullying" },
-  { slug: "not-listening", label: "Not Listening" },
-  { slug: "worry-anxiety", label: "Worry & Anxiety" },
-  { slug: "friendship", label: "Friendship" },
-  { slug: "self-control", label: "Self-Control" },
-  { slug: "kindness", label: "Kindness" },
-  { slug: "transitions", label: "Transitions" },
-];
+// Parent-friendly topics (the UI layer) are derived from the verified topic
+// mapping data so there is a single source of truth for topic slugs/labels.
+export const topics: Topic[] = topicMappings.map(({ slug, label }) => ({ slug, label }));
 
 export const homeExamples: { slug: string; label: string }[] = [
   { slug: "getting-angry", label: "Getting angry" },
@@ -25,33 +18,5 @@ export function topicLabel(slug: string): string {
 
 /** Matches free-text input to the closest known topic slug. */
 export function matchTopic(query: string): string {
-  const q = query.trim().toLowerCase();
-  if (!q) return "getting-angry";
-
-  const keywordMap: Record<string, string> = {
-    angry: "getting-angry",
-    anger: "getting-angry",
-    mad: "getting-angry",
-    interrupt: "interrupting",
-    bully: "bullying",
-    bullying: "bullying",
-    listen: "not-listening",
-    worry: "worry-anxiety",
-    anxious: "worry-anxiety",
-    anxiety: "worry-anxiety",
-    friend: "friendship",
-    control: "self-control",
-    kind: "kindness",
-    transition: "transitions",
-    change: "transitions",
-  };
-
-  for (const [keyword, slug] of Object.entries(keywordMap)) {
-    if (q.includes(keyword)) return slug;
-  }
-
-  const found = topics.find(
-    (t) => q.includes(t.slug.replace(/-/g, " ")) || q.includes(t.label.toLowerCase())
-  );
-  return found?.slug ?? "getting-angry";
+  return matchTopicFromQuery(query) ?? "getting-angry";
 }

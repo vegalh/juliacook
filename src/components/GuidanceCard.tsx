@@ -15,7 +15,7 @@ function speak(text: string) {
 
 export function GuidanceCard({ title, description, quote }: GuidanceCardProps) {
   return (
-    <div className="rounded-3xl bg-light-peach p-5">
+    <div className="rounded-3xl bg-light-blue p-5">
       <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-orange">
         <Zap size={20} className="text-white" fill="white" />
       </div>

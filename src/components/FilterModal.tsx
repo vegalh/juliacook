@@ -58,7 +58,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
 
         <div className="mb-5 flex items-center justify-between">
           <h2 className="font-serif text-xl font-bold text-navy">Filter</h2>
-          <button type="button" onClick={reset} className="text-sm font-medium text-orange">
+          <button type="button" onClick={reset} className="text-sm font-medium text-blue">
             Reset
           </button>
         </div>
@@ -76,7 +76,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
                   type="button"
                   onClick={() => toggleType(value)}
                   className={`flex min-h-11 flex-col items-center gap-1.5 rounded-2xl px-2 py-3 text-xs font-medium transition-colors ${
-                    selected ? "bg-orange text-white" : "bg-light-turquoise text-navy"
+                    selected ? "bg-turquoise text-white" : "bg-light-turquoise text-navy"
                   }`}
                 >
                   <Icon size={20} />
@@ -98,7 +98,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
                   type="button"
                   onClick={() => setSetting(value)}
                   className={`min-h-11 flex-1 rounded-full px-3 py-2.5 text-sm font-medium transition-colors ${
-                    selected ? "bg-orange text-white" : "bg-light-turquoise text-navy"
+                    selected ? "bg-turquoise text-white" : "bg-light-turquoise text-navy"
                   }`}
                 >
                   {label}
@@ -121,7 +121,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
                   type="button"
                   onClick={() => toggleSkill(value)}
                   className={`min-h-11 rounded-full px-3.5 py-2.5 text-sm font-medium transition-colors ${
-                    selected ? "bg-orange text-white" : "bg-light-turquoise text-navy"
+                    selected ? "bg-turquoise text-white" : "bg-light-turquoise text-navy"
                   }`}
                 >
                   {label}
@@ -134,7 +134,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
         <button
           type="button"
           onClick={onShowResults}
-          className="min-h-11 w-full rounded-full bg-orange py-3.5 text-base font-semibold text-white"
+          className="min-h-11 w-full rounded-full bg-blue py-3.5 text-base font-semibold text-white"
         >
           Show Results
         </button>

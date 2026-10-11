@@ -11,7 +11,7 @@ export function TopicChip({ label, selected = false, onClick, className = "" }: 
       type="button"
       onClick={onClick}
       className={`min-h-11 rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
-        selected ? "bg-orange text-white" : "bg-light-turquoise text-navy"
+        selected ? "bg-turquoise text-white" : "bg-light-turquoise text-navy"
       } ${className}`}
     >
       {label}

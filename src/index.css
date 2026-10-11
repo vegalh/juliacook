@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
+  --color-blue: #5982be;
+  --color-turquoise: #37bdbf;
+  --color-navy: #454a69;
   --color-orange: #e96532;
-  --color-turquoise: #75c2c5;
-  --color-navy: #172b4d;
-  --color-brown: #44383a;
-  --color-off-white: #faf8f5;
+  --color-off-white: #f9fafb;
   --color-light-turquoise: #e1f3f3;
-  --color-light-peach: #fff0e8;
+  --color-light-blue: #e8f0fa;
   --color-muted: #64748b;
 
   --font-serif: Georgia, "Times New Roman", serif;

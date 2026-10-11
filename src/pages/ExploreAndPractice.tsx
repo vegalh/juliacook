@@ -59,10 +59,10 @@ export function ExploreAndPractice() {
           <ActionCard
             variant="large"
             icon={<Play size={18} className="text-white" />}
-            iconBgClassName="bg-orange"
+            iconBgClassName="bg-blue"
             title="Watch"
             description="Short, practical videos with Julia and real examples."
-            thumbnail={<div className="h-full w-full bg-light-peach" />}
+            thumbnail={<div className="h-full w-full bg-light-blue" />}
             onClick={() => openFiltered("video")}
           />
           <ActionCard
@@ -77,10 +77,10 @@ export function ExploreAndPractice() {
           <ActionCard
             variant="large"
             icon={<BookOpen size={18} className="text-white" />}
-            iconBgClassName="bg-orange"
+            iconBgClassName="bg-blue"
             title="Read"
             description="Julia's books that support this skill."
-            thumbnail={<div className="h-full w-full bg-light-peach" />}
+            thumbnail={<div className="h-full w-full bg-light-blue" />}
             onClick={() => openFiltered("book")}
           />
         </div>
@@ -91,7 +91,7 @@ export function ExploreAndPractice() {
             reset();
             navigate(`/explore/results?topic=${topic}`);
           }}
-          className="mt-6 min-h-11 w-full rounded-full bg-turquoise py-4 text-base font-semibold text-white"
+          className="mt-6 min-h-11 w-full rounded-full bg-blue py-4 text-base font-semibold text-white"
         >
           See all resources for {label} →
         </button>

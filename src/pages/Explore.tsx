@@ -59,7 +59,7 @@ export function Explore() {
           ))}
         </div>
 
-        <div className="mt-8 flex h-40 items-center justify-center rounded-3xl bg-light-peach text-orange">
+        <div className="mt-8 flex h-40 items-center justify-center rounded-3xl bg-light-blue text-blue">
           <Lightbulb size={60} strokeWidth={1.2} />
         </div>
       </div>

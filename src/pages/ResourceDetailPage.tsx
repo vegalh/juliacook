@@ -49,7 +49,7 @@ export function ResourceDetailPage() {
       />
 
       <div className="px-5 pt-2 pb-8">
-        <div className="flex h-40 items-center justify-center rounded-3xl bg-light-peach text-orange">
+        <div className="flex h-40 items-center justify-center rounded-3xl bg-light-blue text-blue">
           <Icon size={48} strokeWidth={1.3} />
         </div>
 
@@ -60,6 +60,17 @@ export function ResourceDetailPage() {
         <p className="mt-2 text-sm text-navy/70">{resource.description}</p>
 
         <p className="mt-5 text-sm leading-relaxed text-navy/80">{resource.content}</p>
+
+        {resource.sourceUrl && (
+          <a
+            href={resource.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-block text-sm font-medium text-blue underline"
+          >
+            View on juliacookonline.com
+          </a>
+        )}
       </div>
     </AppLayout>
   );

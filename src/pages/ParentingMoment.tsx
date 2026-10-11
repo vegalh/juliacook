@@ -36,7 +36,7 @@ export function ParentingMoment() {
           <h1 className="whitespace-pre-line font-serif text-3xl font-bold leading-tight text-navy">
             {moment.heading}
           </h1>
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-light-peach text-orange">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-light-blue text-blue">
             <Frown size={30} />
           </div>
         </div>
@@ -53,7 +53,7 @@ export function ParentingMoment() {
           <ActionCard
             variant="compact"
             icon={<Play size={18} className="text-white" />}
-            iconBgClassName="bg-orange"
+            iconBgClassName="bg-blue"
             title="Watch"
             description="See it in action"
             onClick={() => navigate(`/moment/${topic}/resources?tab=video`)}
@@ -69,7 +69,7 @@ export function ParentingMoment() {
           <ActionCard
             variant="compact"
             icon={<BookOpen size={18} className="text-white" />}
-            iconBgClassName="bg-orange"
+            iconBgClassName="bg-blue"
             title="Read"
             description="Explore a story"
             onClick={() => navigate(`/moment/${topic}/resources?tab=book`)}
@@ -79,7 +79,7 @@ export function ParentingMoment() {
         <button
           type="button"
           onClick={() => navigate(`/moment/${topic}/resources`)}
-          className="mt-6 min-h-11 w-full rounded-full bg-turquoise py-4 text-base font-semibold text-white"
+          className="mt-6 min-h-11 w-full rounded-full bg-blue py-4 text-base font-semibold text-white"
         >
           Explore more for this moment →
         </button>

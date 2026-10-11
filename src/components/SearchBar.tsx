@@ -47,7 +47,7 @@ export function SearchBar({
             type="button"
             aria-label="Open filters"
             onClick={onFilterClick}
-            className="flex h-8 w-8 shrink-0 items-center justify-center text-orange"
+            className="flex h-8 w-8 shrink-0 items-center justify-center text-blue"
           >
             <SlidersHorizontal size={20} />
           </button>

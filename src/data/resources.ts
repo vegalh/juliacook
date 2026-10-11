@@ -1,3 +1,4 @@
+import { matchTopicFromQuery } from "./topicMappings";
 import type { Filters, Resource } from "../types";
 
 // Prototype sample content. Titles noted as "official" come from the project brief;
@@ -36,6 +37,7 @@ export const resources: Resource[] = [
     settings: ["home", "classroom"],
     content:
       "Julia Cook's classic story helps kids understand why words need to wait their turn.",
+    sourceUrl: "https://juliacookonline.com/2005/01/01/my-mouth-is-a-volcano/",
   },
   {
     id: "feeling-thermometer",
@@ -150,6 +152,9 @@ export function searchResources(options: {
   const topic = options.topic ?? null;
   const filters = options.filters;
   const queryWords = query.split(/\s+/).filter((w) => w.length > 2);
+  // Everyday phrasing ("my child keeps yelling") resolves to a parent-friendly
+  // topic even when the words don't appear in any resource title/description.
+  const matchedTopicSlug = query ? matchTopicFromQuery(query) : null;
 
   return resources.filter((r) => {
     if (topic && !r.topics.includes(topic)) return false;
@@ -157,7 +162,10 @@ export function searchResources(options: {
     if (query) {
       const topicWords = r.topics.map((t) => t.replace(/-/g, " ")).join(" ");
       const haystack = `${r.title} ${r.description} ${topicWords}`.toLowerCase();
-      const matchesQuery = haystack.includes(query) || queryWords.some((w) => haystack.includes(w));
+      const matchesQuery =
+        haystack.includes(query) ||
+        queryWords.some((w) => haystack.includes(w)) ||
+        (matchedTopicSlug !== null && r.topics.includes(matchedTopicSlug));
       if (!matchesQuery) return false;
     }
 

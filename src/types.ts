@@ -22,6 +22,8 @@ export interface Resource {
   duration?: string;
   content: string;
   relatedResources?: string[];
+  /** Link to the original, verified Julia Cook resource, when one exists. */
+  sourceUrl?: string;
 }
 
 export interface Topic {

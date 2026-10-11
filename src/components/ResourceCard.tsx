@@ -10,9 +10,9 @@ const typeIcon: Record<Resource["type"], typeof Play> = {
 };
 
 const typeBg: Record<Resource["type"], string> = {
-  video: "bg-light-peach text-orange",
+  video: "bg-light-blue text-blue",
   activity: "bg-light-turquoise text-turquoise",
-  book: "bg-light-peach text-orange",
+  book: "bg-light-blue text-blue",
   printable: "bg-light-turquoise text-turquoise",
 };
 
