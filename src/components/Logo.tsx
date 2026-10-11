@@ -4,7 +4,7 @@ interface LogoProps {
   size?: number;
 }
 
-const LOGO_SRC = "/assets/julia-cook-logo.jpg";
+const LOGO_SRC = `${import.meta.env.BASE_URL}assets/julia-cook-logo.jpg`;
 
 /** Official Julia Cook logo, with a text fallback if the asset is missing. */
 export function Logo({ size = 40 }: LogoProps) {
