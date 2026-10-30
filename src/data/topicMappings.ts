@@ -1,19 +1,26 @@
-// Educational topic names are verified against the live tag cloud at
-// https://juliacookonline.com/search-by-topic/ (fetched 2026-10-11).
-// Parent-friendly topics are the simplified labels shown in the app's UI.
+// Educational topic tags for the original nine topics were verified against the
+// live tag cloud at https://juliacookonline.com/search-by-topic/ (fetched 2026-10-11).
+// Newer topics added for the China-first expansion (sharing, fear-of-failure,
+// friend-conflict, excluded-by-peers, school-reluctance, procrastination,
+// low-confidence, teen-communication) have not yet been cross-referenced with
+// that tag cloud, so `educationalTopics` is left empty for them until verified.
 export interface TopicMapping {
   slug: string;
   label: string;
+  labelZh: string;
   /** Verified Julia Cook educational topic tags this parent-friendly topic maps to. */
   educationalTopics: string[];
-  /** Everyday parent language used to match free-text search queries to this topic. */
+  /** Everyday English phrasing used to match free-text search queries. */
   keywords: string[];
+  /** Everyday Chinese phrasing used to match free-text search queries. */
+  keywordsZh: string[];
 }
 
 export const topicMappings: TopicMapping[] = [
   {
     slug: "getting-angry",
     label: "Getting Angry",
+    labelZh: "发脾气",
     educationalTopics: [
       "anger",
       "anger control",
@@ -37,10 +44,22 @@ export const topicMappings: TopicMapping[] = [
       "rage",
       "meltdown",
     ],
+    keywordsZh: [
+      "发脾气",
+      "生气",
+      "愤怒",
+      "大哭大闹",
+      "哭闹",
+      "暴躁",
+      "吼叫",
+      "崩溃",
+      "摔东西",
+    ],
   },
   {
     slug: "interrupting",
     label: "Interrupting",
+    labelZh: "打断别人",
     educationalTopics: [
       "listening",
       "following instructions",
@@ -59,16 +78,99 @@ export const topicMappings: TopicMapping[] = [
       "blurts",
       "blurting",
     ],
+    keywordsZh: ["打断", "插话", "抢话", "不等别人说完", "打断别人说话"],
+  },
+  {
+    slug: "sharing",
+    label: "Sharing",
+    labelZh: "不愿意分享",
+    educationalTopics: [],
+    keywords: ["share", "sharing", "won't share", "wont share", "selfish with toys"],
+    keywordsZh: ["分享", "不愿意分享", "不肯分享", "不想分享", "小气", "独占玩具"],
+  },
+  {
+    slug: "fear-of-failure",
+    label: "Fear of Failure",
+    labelZh: "害怕失败",
+    educationalTopics: [],
+    keywords: [
+      "afraid to fail",
+      "fear of failure",
+      "gives up easily",
+      "perfectionist",
+      "scared to try",
+      "scared to be wrong",
+    ],
+    keywordsZh: ["害怕失败", "怕失败", "怕犯错", "怕输", "完美主义", "不敢尝试", "轻易放弃"],
+  },
+  {
+    slug: "friend-conflict",
+    label: "Friendship Conflict",
+    labelZh: "和朋友吵架",
+    educationalTopics: ["friendship", "building relationships", "getting along", "sharing"],
+    keywords: [
+      "friend",
+      "friends",
+      "friendship",
+      "fighting with friends",
+      "argue with friend",
+      "no friends",
+      "getting along",
+    ],
+    keywordsZh: ["和朋友吵架", "朋友", "闹矛盾", "吵架", "绝交", "和好", "人际关系"],
+  },
+  {
+    slug: "excluded-by-peers",
+    label: "Excluded by Peers",
+    labelZh: "被同学排挤",
+    educationalTopics: [],
+    keywords: ["left out", "excluded", "no one plays with", "isolated"],
+    keywordsZh: ["被排挤", "被孤立", "没人跟他玩", "被同学排斥", "被欺负"],
+  },
+  {
+    slug: "school-reluctance",
+    label: "Reluctant About School",
+    labelZh: "不愿意上学",
+    educationalTopics: [],
+    keywords: ["doesn't want to go to school", "refuses school", "school anxiety"],
+    keywordsZh: ["不愿意上学", "不想上学", "抗拒上学", "害怕上学"],
+  },
+  {
+    slug: "procrastination",
+    label: "Procrastination",
+    labelZh: "总是拖延",
+    educationalTopics: [],
+    keywords: ["procrastinate", "procrastinating", "always delays", "puts things off"],
+    keywordsZh: ["拖延", "磨蹭", "总是拖拖拉拉", "不写作业", "拖到最后"],
+  },
+  {
+    slug: "low-confidence",
+    label: "Low Confidence",
+    labelZh: "缺乏自信",
+    educationalTopics: [],
+    keywords: ["low confidence", "self-doubt", "doesn't believe in themselves"],
+    keywordsZh: ["缺乏自信", "不自信", "自卑", "没有自信心"],
+  },
+  {
+    slug: "teen-communication",
+    label: "Teen Won't Talk",
+    labelZh: "青少年不愿意沟通",
+    educationalTopics: [],
+    keywords: ["teen won't talk", "shuts down", "won't open up", "teenager communication"],
+    keywordsZh: ["青少年不愿意和父母沟通", "不愿意沟通", "不说话", "沉默", "亲子沟通"],
   },
   {
     slug: "bullying",
     label: "Bullying",
+    labelZh: "欺凌行为",
     educationalTopics: ["bullying", "bully prevention", "mean girls"],
     keywords: ["bully", "bullying", "bullied", "picked on", "teasing", "teased", "mean kids"],
+    keywordsZh: ["欺凌", "霸凌", "被欺负", "被嘲笑", "被取笑"],
   },
   {
     slug: "not-listening",
     label: "Not Listening",
+    labelZh: "不听话",
     educationalTopics: [
       "listening",
       "following instructions",
@@ -88,10 +190,12 @@ export const topicMappings: TopicMapping[] = [
       "not paying attention",
       "tunes out",
     ],
+    keywordsZh: ["不听话", "不听", "叫不动", "当耳旁风", "无视我说的话"],
   },
   {
     slug: "worry-anxiety",
     label: "Worry & Anxiety",
+    labelZh: "担心与焦虑",
     educationalTopics: ["anxiety", "worry", "stress", "fret", "mindfulness"],
     keywords: [
       "worry",
@@ -105,25 +209,12 @@ export const topicMappings: TopicMapping[] = [
       "afraid",
       "fret",
     ],
-  },
-  {
-    slug: "friendship",
-    label: "Friendship",
-    educationalTopics: ["friendship", "building relationships", "getting along", "sharing"],
-    keywords: [
-      "friend",
-      "friends",
-      "friendship",
-      "doesnt share",
-      "doesn't share",
-      "sharing",
-      "no friends",
-      "getting along",
-    ],
+    keywordsZh: ["担心", "焦虑", "紧张", "害怕", "压力大", "不安"],
   },
   {
     slug: "self-control",
     label: "Self-Control",
+    labelZh: "自我控制",
     educationalTopics: ["self-control", "self-regulation", "impulse control", "control"],
     keywords: [
       "self control",
@@ -135,16 +226,20 @@ export const topicMappings: TopicMapping[] = [
       "loses control",
       "out of control",
     ],
+    keywordsZh: ["自我控制", "控制不住", "冲动", "失控"],
   },
   {
     slug: "kindness",
     label: "Kindness",
+    labelZh: "友善待人",
     educationalTopics: ["kindness", "empathy", "good sportsmanship"],
     keywords: ["kind", "kindness", "unkind", "mean", "not nice", "empathy"],
+    keywordsZh: ["友善", "善良", "不友善", "对人不好", "同理心"],
   },
   {
     slug: "transitions",
     label: "Transitions",
+    labelZh: "适应转换",
     educationalTopics: ["flexibility", "looking ahead"],
     keywords: [
       "transition",
@@ -155,6 +250,7 @@ export const topicMappings: TopicMapping[] = [
       "schedule",
       "new routine",
     ],
+    keywordsZh: ["转换", "切换", "换环境", "改变日程", "适应新常规"],
   },
 ];
 
@@ -162,7 +258,7 @@ function normalize(text: string): string {
   return text.trim().toLowerCase().replace(/['']/g, "");
 }
 
-/** Resolves free-text parent input to the best-matching parent-friendly topic slug, or null. */
+/** Resolves free-text parent input (Chinese or English) to the best-matching topic slug, or null. */
 export function matchTopicFromQuery(query: string): string | null {
   const q = normalize(query);
   if (!q) return null;
@@ -172,9 +268,12 @@ export function matchTopicFromQuery(query: string): string | null {
 
   for (const mapping of topicMappings) {
     let score = 0;
-    if (q === normalize(mapping.label)) score += 10;
+    if (q === normalize(mapping.label) || q === mapping.labelZh) score += 10;
     for (const keyword of mapping.keywords) {
       if (q.includes(normalize(keyword))) score += 2;
+    }
+    for (const keyword of mapping.keywordsZh) {
+      if (q.includes(keyword)) score += 2;
     }
     if (q.includes(mapping.slug.replace(/-/g, " "))) score += 3;
     if (score > bestScore) {

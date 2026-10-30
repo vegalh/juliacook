@@ -1,5 +1,6 @@
 import { Mic, Search, SlidersHorizontal } from "lucide-react";
 import { useState, type KeyboardEvent } from "react";
+import { useLocale } from "../i18n";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -10,12 +11,13 @@ interface SearchBarProps {
 }
 
 export function SearchBar({
-  placeholder = "What's happening with your child?",
+  placeholder,
   defaultValue = "",
   mode = "mic",
   onSubmit,
   onFilterClick,
 }: SearchBarProps) {
+  const { t } = useLocale();
   const [value, setValue] = useState(defaultValue);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -29,13 +31,13 @@ export function SearchBar({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder={placeholder}
+        placeholder={placeholder ?? t("common.searchPlaceholder")}
         className="min-w-0 flex-1 bg-transparent text-sm text-navy placeholder:text-muted focus:outline-none"
       />
       {mode === "mic" ? (
         <button
           type="button"
-          aria-label="Voice search"
+          aria-label={t("common.voiceSearch")}
           className="flex h-8 w-8 shrink-0 items-center justify-center text-muted"
         >
           <Mic size={20} />
@@ -45,7 +47,7 @@ export function SearchBar({
           <span className="h-6 w-px shrink-0 bg-black/10" />
           <button
             type="button"
-            aria-label="Open filters"
+            aria-label={t("common.filter")}
             onClick={onFilterClick}
             className="flex h-8 w-8 shrink-0 items-center justify-center text-blue"
           >

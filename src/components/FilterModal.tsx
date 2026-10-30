@@ -1,6 +1,8 @@
 import { BookOpen, Play, Printer, Puzzle } from "lucide-react";
 import { useEffect } from "react";
 import { useFilters } from "../context/FilterContext";
+import { settingLabel, skillLabel, typeLabel } from "../data/labels";
+import { useLocale } from "../i18n";
 import type { ResourceType, Setting, Skill } from "../types";
 
 interface FilterModalProps {
@@ -9,29 +11,26 @@ interface FilterModalProps {
   onShowResults: () => void;
 }
 
-const contentTypes: { value: ResourceType; label: string; icon: typeof Play }[] = [
-  { value: "video", label: "Videos", icon: Play },
-  { value: "activity", label: "Activities", icon: Puzzle },
-  { value: "book", label: "Books", icon: BookOpen },
-  { value: "printable", label: "Printables", icon: Printer },
+const contentTypes: { value: ResourceType; icon: typeof Play }[] = [
+  { value: "video", icon: Play },
+  { value: "activity", icon: Puzzle },
+  { value: "book", icon: BookOpen },
+  { value: "printable", icon: Printer },
 ];
 
-const settings: { value: Setting; label: string }[] = [
-  { value: "home", label: "Home" },
-  { value: "classroom", label: "Classroom" },
-  { value: "both", label: "Both" },
-];
+const settings: Setting[] = ["home", "classroom", "both"];
 
-const skills: { value: Skill; label: string }[] = [
-  { value: "emotions", label: "Emotions" },
-  { value: "communication", label: "Communication" },
-  { value: "friendship", label: "Friendship" },
-  { value: "self-control", label: "Self-Control" },
-  { value: "empathy", label: "Empathy" },
-  { value: "problem-solving", label: "Problem Solving" },
+const skills: Skill[] = [
+  "emotions",
+  "communication",
+  "friendship",
+  "self-control",
+  "empathy",
+  "problem-solving",
 ];
 
 export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) {
+  const { locale, t } = useLocale();
   const { filters, toggleType, toggleSkill, setSetting, reset } = useFilters();
 
   useEffect(() => {
@@ -49,7 +48,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
     <div className="absolute inset-0 z-30 flex items-end">
       <button
         type="button"
-        aria-label="Close filters"
+        aria-label={t("common.back")}
         onClick={onClose}
         className="absolute inset-0 bg-navy/40"
       />
@@ -57,18 +56,18 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
         <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-black/10" />
 
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="font-serif text-xl font-bold text-navy">Filter</h2>
+          <h2 className="font-serif text-xl font-bold text-navy">{t("common.filter")}</h2>
           <button type="button" onClick={reset} className="text-sm font-medium text-blue">
-            Reset
+            {t("common.reset")}
           </button>
         </div>
 
         <section className="mb-6">
           <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">
-            Content Type
+            {t("library.byType")}
           </h3>
           <div className="grid grid-cols-4 gap-2">
-            {contentTypes.map(({ value, label, icon: Icon }) => {
+            {contentTypes.map(({ value, icon: Icon }) => {
               const selected = filters.types.includes(value);
               return (
                 <button
@@ -80,7 +79,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
                   }`}
                 >
                   <Icon size={20} />
-                  {label}
+                  {typeLabel(value, locale)}
                 </button>
               );
             })}
@@ -88,9 +87,11 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
         </section>
 
         <section className="mb-6">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">Setting</h3>
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">
+            {t("common.setting")}
+          </h3>
           <div className="flex gap-2">
-            {settings.map(({ value, label }) => {
+            {settings.map((value) => {
               const selected = filters.setting === value;
               return (
                 <button
@@ -101,7 +102,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
                     selected ? "bg-turquoise text-white" : "bg-light-turquoise text-navy"
                   }`}
                 >
-                  {label}
+                  {settingLabel(value, locale)}
                 </button>
               );
             })}
@@ -110,10 +111,10 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
 
         <section className="mb-6">
           <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">
-            Skill Area
+            {t("common.skillArea")}
           </h3>
           <div className="flex flex-wrap gap-2">
-            {skills.map(({ value, label }) => {
+            {skills.map((value) => {
               const selected = filters.skills.includes(value);
               return (
                 <button
@@ -124,7 +125,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
                     selected ? "bg-turquoise text-white" : "bg-light-turquoise text-navy"
                   }`}
                 >
-                  {label}
+                  {skillLabel(value, locale)}
                 </button>
               );
             })}
@@ -136,7 +137,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
           onClick={onShowResults}
           className="min-h-11 w-full rounded-full bg-blue py-3.5 text-base font-semibold text-white"
         >
-          Show Results
+          {t("common.showResults")}
         </button>
       </div>
     </div>

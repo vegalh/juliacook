@@ -1,17 +1,21 @@
-import { Bookmark, Compass, House, MoreHorizontal } from "lucide-react";
+import { GraduationCap, House, Library, PuzzleIcon } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useLocale } from "../i18n";
 
 const items = [
-  { to: "/", label: "Home", icon: House, end: true },
-  { to: "/explore", label: "Explore", icon: Compass, end: false },
-  { to: "/saved", label: "Saved", icon: Bookmark, end: false },
-  { to: "/more", label: "More", icon: MoreHorizontal, end: false },
-];
+  { to: "/", key: "home", icon: House, end: true },
+  { to: "/learn", key: "learn", icon: GraduationCap, end: false },
+  { to: "/practice", key: "practice", icon: PuzzleIcon, end: false },
+  { to: "/library", key: "library", icon: Library, end: false },
+] as const;
 
+/** Primary 4-section navigation: Home / Learn / Practice / Library. */
 export function BottomNavigation() {
+  const { t } = useLocale();
+
   return (
     <nav className="sticky bottom-0 z-20 flex border-t border-black/5 bg-white px-2 pb-[calc(env(safe-area-inset-bottom)+6px)] pt-2">
-      {items.map(({ to, label, icon: Icon, end }) => (
+      {items.map(({ to, key, icon: Icon, end }) => (
         <NavLink
           key={to}
           to={to}
@@ -23,7 +27,7 @@ export function BottomNavigation() {
           }
         >
           <Icon size={22} strokeWidth={2} />
-          {label}
+          {t(`nav.${key}`)}
         </NavLink>
       ))}
     </nav>

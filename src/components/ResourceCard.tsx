@@ -1,5 +1,7 @@
 import { BookOpen, ChevronRight, Play, Printer, Puzzle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLocale } from "../i18n";
+import { typeLabel } from "../data/labels";
 import type { Resource } from "../types";
 
 const typeIcon: Record<Resource["type"], typeof Play> = {
@@ -17,7 +19,11 @@ const typeBg: Record<Resource["type"], string> = {
 };
 
 export function ResourceCard({ resource }: { resource: Resource }) {
+  const { locale } = useLocale();
   const Icon = typeIcon[resource.type];
+  const title = locale === "zh" && resource.titleZh ? resource.titleZh : resource.title;
+  const description =
+    locale === "zh" && resource.descriptionZh ? resource.descriptionZh : resource.description;
 
   return (
     <Link
@@ -36,10 +42,10 @@ export function ResourceCard({ resource }: { resource: Resource }) {
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-[11px] font-semibold uppercase tracking-wide text-muted">
-          {resource.type}
+          {typeLabel(resource.type, locale)}
         </p>
-        <h3 className="truncate font-serif text-base font-bold text-navy">{resource.title}</h3>
-        <p className="mt-0.5 line-clamp-2 text-xs text-navy/70">{resource.description}</p>
+        <h3 className="truncate font-serif text-base font-bold text-navy">{title}</h3>
+        <p className="mt-0.5 line-clamp-2 text-xs text-navy/70">{description}</p>
       </div>
       <ChevronRight size={18} className="shrink-0 text-muted" />
     </Link>
