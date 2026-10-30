@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useMemo, useState, type ReactNo
 import { locales, translations, type Locale, type TranslationDictionary } from "./translations";
 
 const STORAGE_KEY = "cookie-bytes:locale";
-const DEFAULT_LOCALE: Locale = "zh";
+const DEFAULT_LOCALE: Locale = "en";
 
 function readStoredLocale(): Locale {
   try {
