@@ -1,11 +1,15 @@
 import { ArrowLeft, BookOpen, Play, Printer, Puzzle } from "lucide-react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from "../components/AppLayout";
 import { Header } from "../components/Header";
 import { SaveButton } from "../components/SaveButton";
+import { PdfViewer } from "../components/viewers/PdfViewer";
+import { VideoPlayerViewer } from "../components/viewers/VideoPlayerViewer";
 import { getContentProvider } from "../content/ContentProvider";
 import { isHiddenFromDiscovery } from "../content/types";
 import { typeLabel } from "../data/labels";
+import { useRecentlyViewed } from "../hooks/useRecentlyViewed";
 import { useSavedResources } from "../hooks/useSavedResources";
 import { useLocale, type TranslationKey } from "../i18n";
 import type { Resource } from "../types";
@@ -31,8 +35,13 @@ export function ResourceDetailPage() {
   const navigate = useNavigate();
   const { locale, t } = useLocale();
   const { isSaved, toggleSaved } = useSavedResources();
+  const { recordView } = useRecentlyViewed();
   // A direct link to a restricted resource must still never reveal its content.
   const resource = getContentProvider().getResourceById(id);
+
+  useEffect(() => {
+    if (resource) recordView("resource", resource.id);
+  }, [resource, recordView]);
 
   if (!resource) {
     return (
@@ -69,9 +78,15 @@ export function ResourceDetailPage() {
       />
 
       <div className="px-5 pt-2 pb-8">
-        <div className="flex h-40 items-center justify-center rounded-3xl bg-light-blue text-blue">
-          <Icon size={48} strokeWidth={1.3} />
-        </div>
+        {resource.type === "video" ? (
+          <VideoPlayerViewer title={title} src={resource.thumbnail} />
+        ) : resource.type === "printable" ? (
+          <PdfViewer title={title} src={resource.thumbnail} />
+        ) : (
+          <div className="flex h-40 items-center justify-center rounded-3xl bg-light-blue text-blue">
+            <Icon size={48} strokeWidth={1.3} />
+          </div>
+        )}
 
         <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">
           {typeLabel(resource.type, locale)}

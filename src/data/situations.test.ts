@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { ageGroups } from "./ageGroups";
 import { flagshipTopicSlugs, getSituation, resolveSituationContent, situations } from "./situations";
 
 describe("situations data", () => {
@@ -35,6 +36,20 @@ describe("situations data", () => {
     expect(situation.isFlagshipJourney).toBe(false);
     expect(resolveSituationContent(situation, "younger")).toBe(situation.default);
     expect(resolveSituationContent(situation, "older")).toBe(situation.default);
+  });
+
+  it("gives every flagship journey genuinely distinct guidance across all four age groups", () => {
+    for (const slug of flagshipTopicSlugs) {
+      const situation = getSituation(slug);
+      expect(situation.understandByAge).toBeDefined();
+      const texts = ageGroups.map((group) => situation.understandByAge?.[group]?.text);
+      const textsZh = ageGroups.map((group) => situation.understandByAge?.[group]?.textZh);
+      expect(texts.every(Boolean)).toBe(true);
+      expect(textsZh.every(Boolean)).toBe(true);
+      // Every age tier's wording should differ from every other tier's.
+      expect(new Set(texts).size).toBe(ageGroups.length);
+      expect(new Set(textsZh).size).toBe(ageGroups.length);
+    }
   });
 
   it("never attributes original guidance to Julia Cook", () => {

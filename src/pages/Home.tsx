@@ -1,19 +1,54 @@
-import { CircleUserRound, Smile } from "lucide-react";
+import { Compass, MessageCircle, PuzzleIcon, UserRound } from "lucide-react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ActivityCard } from "../components/ActivityCard";
 import { AppLayout } from "../components/AppLayout";
+import { BookCard } from "../components/BookCard";
 import { Header } from "../components/Header";
 import { Logo } from "../components/Logo";
+import { ParentLanguageExplorer } from "../components/ParentLanguageExplorer";
 import { SearchBar } from "../components/SearchBar";
 import { TopicChip } from "../components/TopicChip";
-import { homeExamples, matchTopic } from "../data/topics";
+import { useAgeGroup } from "../context/AgeGroupContext";
+import { activities, activitiesForAgeGroup } from "../data/activities";
+import { detailedBooks } from "../data/books";
+import { standaloneLanguageScenarios } from "../data/languageScenarios";
+import { homeExamples, matchTopicFromQuery } from "../data/topics";
 import { useLocale } from "../i18n";
+
+const quickAccessItems = [
+  { key: "discover", icon: Compass, path: "/discover", labelKey: "nav.discover" as const },
+  { key: "activities", icon: PuzzleIcon, path: "/activities", labelKey: "nav.activities" as const },
+  { key: "languageLab", icon: MessageCircle, path: "/language-lab", labelKey: "home.languageLabTitle" as const },
+  { key: "my", icon: UserRound, path: "/my", labelKey: "nav.my" as const },
+];
 
 export function Home() {
   const navigate = useNavigate();
   const { locale, t } = useLocale();
+  const { ageGroup } = useAgeGroup();
+  const [scenarioIndex, setScenarioIndex] = useState(() =>
+    Math.floor(Math.random() * standaloneLanguageScenarios.length)
+  );
+  const [featuredBookIndex] = useState(() => Math.floor(Math.random() * detailedBooks.length));
+
+  const featuredScenario = useMemo(
+    () => standaloneLanguageScenarios[scenarioIndex % standaloneLanguageScenarios.length],
+    [scenarioIndex]
+  );
+  const featuredBook = detailedBooks[featuredBookIndex % detailedBooks.length];
+  const featuredActivity = useMemo(() => {
+    const matching = activitiesForAgeGroup(ageGroup);
+    return matching[0] ?? activities[0];
+  }, [ageGroup]);
 
   const goToSituation = (query: string) => {
-    navigate(`/situation/${matchTopic(query)}`);
+    const slug = matchTopicFromQuery(query);
+    if (slug) {
+      navigate(`/situation/${slug}`);
+    } else {
+      navigate(`/discover?q=${encodeURIComponent(query)}`);
+    }
   };
 
   return (
@@ -24,10 +59,10 @@ export function Home() {
           <button
             type="button"
             aria-label={t("common.profile")}
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/my")}
             className="text-navy"
           >
-            <CircleUserRound size={28} />
+            <UserRound size={28} />
           </button>
         }
       />
@@ -55,8 +90,68 @@ export function Home() {
           ))}
         </div>
 
-        <div className="mt-8 flex h-44 items-center justify-center rounded-3xl bg-light-turquoise text-turquoise">
-          <Smile size={64} strokeWidth={1.2} />
+        {featuredBook && (
+          <div className="mt-8">
+            <p className="text-xs font-semibold uppercase tracking-wide text-turquoise">
+              {t("home.featuredStoryEyebrow")}
+            </p>
+            <h2 className="mt-0.5 font-serif text-xl font-bold text-navy">{t("home.featuredStoryTitle")}</h2>
+            <div className="mt-3">
+              <BookCard book={featuredBook} />
+            </div>
+          </div>
+        )}
+
+        {featuredActivity && (
+          <div className="mt-8">
+            <p className="text-xs font-semibold uppercase tracking-wide text-turquoise">
+              {t("home.featuredActivityEyebrow")}
+            </p>
+            <h2 className="mt-0.5 font-serif text-xl font-bold text-navy">{t("home.featuredActivityTitle")}</h2>
+            <div className="mt-3">
+              <ActivityCard activity={featuredActivity} />
+            </div>
+          </div>
+        )}
+
+        <div className="mt-8">
+          <p className="text-xs font-semibold uppercase tracking-wide text-turquoise">
+            {t("home.languageLabEyebrow")}
+          </p>
+          <h2 className="mt-0.5 font-serif text-xl font-bold text-navy">{t("home.languageLabTitle")}</h2>
+          <div className="mt-3">
+            <ParentLanguageExplorer
+              key={featuredScenario.id}
+              scenario={featuredScenario}
+              onNextScenario={() => setScenarioIndex((i) => i + 1)}
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate("/language-lab")}
+            className="mt-3 min-h-11 text-sm font-semibold text-blue"
+          >
+            {t("home.languageLabCta")}
+          </button>
+        </div>
+
+        <div className="mt-8 pb-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+            {t("home.quickAccessTitle")}
+          </p>
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            {quickAccessItems.map(({ key, icon: Icon, path, labelKey }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => navigate(path)}
+                className="flex min-h-20 flex-col items-center justify-center gap-1.5 rounded-2xl bg-light-blue py-4 text-navy active:bg-light-turquoise"
+              >
+                <Icon size={22} className="text-blue" />
+                <span className="text-xs font-semibold">{t(labelKey)}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </AppLayout>

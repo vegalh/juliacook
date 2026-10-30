@@ -1,15 +1,15 @@
-import { GraduationCap, House, Library, PuzzleIcon } from "lucide-react";
+import { Compass, House, PuzzleIcon, UserRound } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useLocale } from "../i18n";
 
 const items = [
   { to: "/", key: "home", icon: House, end: true },
-  { to: "/learn", key: "learn", icon: GraduationCap, end: false },
-  { to: "/practice", key: "practice", icon: PuzzleIcon, end: false },
-  { to: "/library", key: "library", icon: Library, end: false },
+  { to: "/discover", key: "discover", icon: Compass, end: false },
+  { to: "/activities", key: "activities", icon: PuzzleIcon, end: false },
+  { to: "/my", key: "my", icon: UserRound, end: false },
 ] as const;
 
-/** Primary 4-section navigation: Home / Learn / Practice / Library. */
+/** Primary 4-section navigation: Home / Discover / Activities / My Space. */
 export function BottomNavigation() {
   const { t } = useLocale();
 

@@ -10,18 +10,23 @@ to a concrete, age-appropriate thing to say or do, in Simplified Chinese
 first and English second.
 
 The experience is organized around four sections, reachable from a persistent
-bottom nav:
+bottom nav (see [information-architecture.md](./information-architecture.md)
+for the full route-by-route breakdown):
 
 - **首页 / Home** — a short list of common everyday situations ("发脾气",
-  "打断别人", "不愿意分享", …) to jump straight into.
-- **理解孩子 / Learn** — the five social-emotional-learning competencies
-  (self-awareness, self-management, social awareness, relationship skills,
-  responsible decision-making) explained in parent-friendly language, each
-  linked back to the situations that exercise it.
-- **一起试试看 / Practice** — short, concrete parent-and-child activities,
-  ordered by the child's current age group.
-- **资源库 / Library** — browse or search the full resource catalog by
-  challenge, competency, age group, or resource type.
+  "打断别人", "不愿意分享", …) to jump straight into, plus a featured story
+  and a featured activity.
+- **探索 / Discover** — the unified content-discovery hub: browse by
+  challenge/age, browse stories by Julia Cook book series, browse resources
+  by format (audiobook/video/worksheet/poster/quiz/activity/parent
+  guidance), or search/filter across everything. Each book's series page
+  leads into a Book Hub (`/books/:bookId`) with its full bibliographic
+  detail and companion resources.
+- **一起玩 / Activities** — short, concrete parent-and-child activities,
+  filterable by "no materials needed" or "quick (under 10 minutes)", plus
+  entry points into an interactive Language Lab and printables.
+- **我的 / My Space** — everything saved, recently viewed, or reflected on,
+  plus language and age-group settings.
 
 A parenting **situation** (e.g. "孩子一生气就大哭大闹") is the core unit of the
 experience: it pairs a short "what's going on" explanation with two or three

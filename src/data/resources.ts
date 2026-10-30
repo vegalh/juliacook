@@ -61,6 +61,7 @@ export const resources: Resource[] = [
     contentZh:
       "仅展示已核实的书目信息——本应用不会复制书中的文字或插图。故事讲述男孩 Louis 学习如何\u201c存住\u201d想说的话，直到轮到自己发言。",
     sourceUrl: "https://juliacookonline.com/2005/01/01/my-mouth-is-a-volcano/",
+    bookId: "my-mouth-is-a-volcano",
     licensing: VERIFIED_BIBLIOGRAPHIC,
   },
   {

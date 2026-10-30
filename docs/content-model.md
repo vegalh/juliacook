@@ -67,8 +67,9 @@ const content = resolveSituationContent(situation, ageBucket);
 
 All resource reads go through `getContentProvider()`
 (`src/content/ContentProvider.ts`), never `src/data/resources.ts` directly,
-except for `Library.tsx`'s browse shelves for topics/competencies/age-groups
-(those are navigational, not licensed content, so there's nothing to filter).
+except for `Discover.tsx`'s (formerly `Library.tsx`) browse shelves for
+topics/competencies/age-groups (those are navigational, not licensed
+content, so there's nothing to filter).
 The provider excludes any resource whose `licensing.licenseStatus` is
 `"restricted"` or `"unknown"` from every listing/search method — but a
 direct, already-known id still resolves via `getResourceById`, so a shared

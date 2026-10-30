@@ -21,6 +21,24 @@ export const situations: ParentingSituation[] = [
     reflectPrompt: "What helped your child come back to calm today?",
     reflectPromptZh: "今天是什么帮助孩子重新平静下来的？",
     isFlagshipJourney: true,
+    understandByAge: {
+      "3-6": {
+        text: "At this age, big emotions arrive before language and self-control are ready. A meltdown is often sensory or emotional overload, not manipulation.",
+        textZh: "这个年龄段的孩子，情绪比语言和自控能力发育得更快；崩溃大哭通常是感官或情绪被瞬间压垮，而不是故意使坏。",
+      },
+      "6-10": {
+        text: "Kids this age are starting to notice fairness and can feel intense frustration when things seem unjust. They can name feelings but still lose control under stress.",
+        textZh: "这个阶段的孩子开始在意“公平”，遇到他们觉得不公的事时情绪会特别激烈；他们已经能说出感受，但压力大时仍然容易失控。",
+      },
+      "10-12": {
+        text: "Preteens are more self-conscious and may suppress anger in public, then release it more sharply at home, where they feel safest.",
+        textZh: "这个年龄段的孩子更在意别人的看法，常常把怒气压在心里，直到在家里这个相对安全的地方才一次性爆发出来。",
+      },
+      "13+": {
+        text: "A teen's brain is rewiring for independence, and irritability can spike with hormonal changes, sleep needs, and a strong desire to be taken seriously.",
+        textZh: "青少年的大脑正在为独立做准备，加上荷尔蒙变化和睡眠需求增加，他们更容易烦躁，也更渴望被认真对待。",
+      },
+    },
     default: {
       heading: "My child\nis getting angry",
       headingZh: "孩子一生气就\n大哭大闹",
@@ -103,6 +121,24 @@ export const situations: ParentingSituation[] = [
     reflectPrompt: "When did you notice your child pause today, even briefly?",
     reflectPromptZh: "今天你有没有注意到孩子有哪怕很短暂的停顿？",
     isFlagshipJourney: true,
+    understandByAge: {
+      "3-6": {
+        text: "Young children have very limited working memory, so they blurt out thoughts immediately for fear of losing them — not because they're being rude.",
+        textZh: "小朋友的“工作记忆”有限，他们急着把想法说出来是怕一等就忘了，而不是没礼貌。",
+      },
+      "6-10": {
+        text: "Kids are learning conversational turn-taking as a real skill, and excitement about a topic can easily override that still-wobbly skill.",
+        textZh: "这个阶段的孩子正在学习轮流对话这项技能，一旦对某个话题特别兴奋，这项还不够稳固的技能就容易“掉线”。",
+      },
+      "10-12": {
+        text: "Preteens may interrupt to assert status within a group, or because they themselves fear being talked over.",
+        textZh: "这个年龄段的孩子打断别人，有时是想在群体中争取话语权，有时是担心自己也会被别人抢话。",
+      },
+      "13+": {
+        text: "Teens often interrupt during fast, emotionally charged conversations — like with siblings or parents — when they feel unheard, rather than out of disrespect.",
+        textZh: "青少年打断别人，常常发生在情绪比较强烈的对话中（比如和父母或兄弟姐妹），这多半是因为觉得自己没被听见，而不是不尊重人。",
+      },
+    },
     default: {
       heading: "My child\nkeeps interrupting",
       headingZh: "孩子总是\n打断别人说话",
@@ -185,6 +221,24 @@ export const situations: ParentingSituation[] = [
     reflectPrompt: "What's one thing your child shared today, big or small?",
     reflectPromptZh: "今天孩子分享了什么，不管大小？",
     isFlagshipJourney: true,
+    understandByAge: {
+      "3-6": {
+        text: "Object ownership feels absolute at this age. Sharing can genuinely feel like permanent loss, not a temporary turn.",
+        textZh: "这个阶段的孩子对“这是我的”有非常绝对的认知，分享对他们来说可能真的感觉像是永远失去。",
+      },
+      "6-10": {
+        text: "Kids start understanding reciprocity (\"I'll get a turn too\"), but still need the exchange made explicit and clearly fair.",
+        textZh: "孩子开始理解“互相轮流”的概念，但仍然需要大人把交换的规则说得很清楚、很公平。",
+      },
+      "10-12": {
+        text: "\"Sharing\" shifts toward credit, attention, and inclusion in a group — material objects matter less than this social currency.",
+        textZh: "这个阶段的“分享”更多指向功劳、关注和被群体接纳——实物本身的重要性反而变小了。",
+      },
+      "13+": {
+        text: "Teens navigate sharing time, space, and responsibility with family and peers, often weighing it against their push for independence.",
+        textZh: "青少年要面对的“分享”是时间、空间和责任——这常常和他们追求独立的心理拉扯在一起。",
+      },
+    },
     default: {
       heading: "My child\ndoesn't want to share",
       headingZh: "孩子不愿意\n分享玩具",
@@ -267,6 +321,24 @@ export const situations: ParentingSituation[] = [
     reflectPrompt: "What did your child try today, even if it didn't go perfectly?",
     reflectPromptZh: "今天孩子尝试了什么，即使结果不完美？",
     isFlagshipJourney: true,
+    understandByAge: {
+      "3-6": {
+        text: "A young child's self-concept is still very concrete, so a mistake can feel like \"I did it wrong\" turns into \"I am bad at this.\"",
+        textZh: "小朋友的自我认知还比较“具体”，犯错很容易被他们理解成“我很差劲”，而不只是“这件事没做好”。",
+      },
+      "6-10": {
+        text: "Kids this age start comparing themselves to peers and may avoid trying altogether if they expect to end up \"behind\" someone else.",
+        textZh: "这个阶段的孩子开始和同伴比较，如果预感自己会“落后”，可能就直接选择不去尝试。",
+      },
+      "10-12": {
+        text: "Preteens are highly sensitive to making mistakes in front of classmates — sometimes that feeling of being watched matters more than the mistake itself.",
+        textZh: "这个年龄段的孩子对“当众出错”特别敏感，有时候这种“被看到”的担心比犯错本身影响更大。",
+      },
+      "13+": {
+        text: "Teens may tie failure to long-term identity and future plans (\"if I fail this, it says something about my whole path\"), which raises the emotional stakes.",
+        textZh: "青少年容易把一次失败和长远的自我价值、未来联系在一起（“这次不行是不是说明我整个方向都不行”），情绪压力也因此更大。",
+      },
+    },
     default: {
       heading: "My child\nis afraid to fail",
       headingZh: "孩子一遇到困难\n就想放弃",
@@ -348,6 +420,24 @@ export const situations: ParentingSituation[] = [
     reflectPrompt: "What did your child say about how they're feeling about their friend?",
     reflectPromptZh: "孩子今天对这段友谊说了些什么感受？",
     isFlagshipJourney: true,
+    understandByAge: {
+      "3-6": {
+        text: "Friendships at this age form mostly around shared play, so a single conflict can feel like the whole friendship is over — the gray area in between isn't obvious yet.",
+        textZh: "这个阶段的友谊主要建立在一起玩耍上，一次冲突很容易让孩子觉得“友谊结束了”，还不太能理解其中的灰色地带。",
+      },
+      "6-10": {
+        text: "Kids are learning to repair relationships and can benefit from a simple script, but often still need an adult to help structure the first step.",
+        textZh: "孩子开始学习如何修复关系，一句简单的话就可能有帮助，但往往还需要大人帮他们理清第一步该怎么做。",
+      },
+      "10-12": {
+        text: "Friend groups and social standing — who's \"in\" or \"out\" — become more central, which makes conflicts feel higher-stakes than they might look from outside.",
+        textZh: "这个阶段朋友圈和“谁是自己人”的社交结构变得更重要，这让冲突感觉风险更高。",
+      },
+      "13+": {
+        text: "Conflicts may now play out partly online or in group chats, adding an audience and a permanent record that younger kids never have to deal with.",
+        textZh: "青少年的冲突可能一部分发生在线上或群聊里，多了“观众”和“被记录下来”的复杂性，这是小朋友不会遇到的情况。",
+      },
+    },
     default: {
       heading: "My child\nhad a fight with a friend",
       headingZh: "孩子和朋友\n吵架了",

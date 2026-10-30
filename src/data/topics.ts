@@ -32,7 +32,10 @@ export function topicLabel(slug: string, locale: "zh" | "en" = "en"): string {
   return locale === "zh" ? topic.labelZh : topic.label;
 }
 
-/** Matches free-text input (Chinese or English) to the closest known topic slug. */
-export function matchTopic(query: string): string {
-  return matchTopicFromQuery(query) ?? "getting-angry";
-}
+/**
+ * Matches free-text input (Chinese or English) to the closest known topic
+ * slug, or `null` when nothing matches. Callers must not silently fall back
+ * to an unrelated default topic on `null` — route the parent to an honest
+ * search-results/no-results state instead (see `Home.tsx`'s `goToSituation`).
+ */
+export { matchTopicFromQuery };

@@ -1,38 +1,63 @@
 # Information Architecture
 
+> This is the canonical, up-to-date IA doc (rewritten for the Phase 4
+> frontend redesign — see
+> [frontend-information-architecture.md](./frontend-information-architecture.md)
+> for the full route table, mode-by-mode Discover/Activities/My Space
+> breakdown, and backward-compatible redirect list).
+
 ## Navigation
 
-Four top-level sections, each with its own bottom-nav tab (`src/components/BottomNavigation.tsx`):
+Four top-level sections, each with its own bottom-nav tab
+(`src/components/BottomNavigation.tsx`):
 
 ```mermaid
 graph LR
   Home["首页 / Home\n(/)"] --> Situation["Situation detail\n(/situation/:topic)"]
-  Learn["理解孩子 / Learn\n(/learn)"] --> Situation
-  Practice["一起试试看 / Practice\n(/practice)"] --> Activity["Activity detail\n(/practice/:id)"]
-  Situation --> Activity
-  Library["资源库 / Library\n(/library)"] --> Resource["Resource detail\n(/resources/:id)"]
-  Situation --> Resource
-  Home -. profile icon .-> Profile["我的 / Profile\n(/profile)"]
-  Profile --> Saved["收藏 / Saved\n(/saved)"]
+  Discover["探索 / Discover\n(/discover)"] --> Situation
+  Discover --> BookDetail["Book Hub\n(/books/:bookId)"]
+  Discover --> ResourceDetail["Resource detail\n(/resources/:id)"]
+  Activities["一起玩 / Activities\n(/activities)"] --> ActivityDetail["Activity detail\n(/activities/:id)"]
+  Situation --> ActivityDetail
+  My["我的 / My Space\n(/my)"]
 ```
+
+- **首页 / Home** (`/`) — a short list of common everyday situations, plus a
+  featured story and a featured activity.
+- **探索 / Discover** (`/discover`) — the unified content-discovery hub:
+  browse by topic/age, browse stories by book series, or browse resources
+  by format, or search/filter across everything. Replaces the old
+  `Learn`/`Library` split.
+- **一起玩 / Activities** (`/activities`) — the practice-activity library,
+  filterable by "no materials needed"/"quick", plus entry cards into the
+  Language Lab and printables. Replaces the old age-ordered `Practice`
+  page.
+- **我的 / My Space** (`/my`) — saved items, recently viewed, reflections,
+  and settings (language/age-group), in four tabs. Replaces the old
+  `Profile`/`Saved` pages.
 
 ## Routes (`src/App.tsx`)
 
 | Path | Page | Notes |
 | --- | --- | --- |
-| `/` | `Home` | Entry point; short list of example situations |
-| `/learn` | `Learn` | The 5 SEL competencies, each linked to its situations |
-| `/practice` | `Practice` | Activity list, ordered by the active age group |
-| `/practice/:id` | `ActivityDetail` | One activity's goal/materials/steps/reflection questions |
+| `/` | `Home` | Entry point |
+| `/discover` | `Discover` | Topics / Stories / Resources modes, or search results when a query/topic/filter is active |
+| `/activities` | `Activities` | Activity list with filter chips |
+| `/activities/:id` | `ActivityDetail` | One activity's goal/materials/steps/reflection questions |
 | `/situation/:topic` | `SituationPage` | Core situation experience (see below) |
-| `/library` | `Library` | Browse (no query) or search-results (query/topic/filters active) |
+| `/language-lab` | `LanguageLab` | Interactive "try saying" practice |
 | `/resources/:id` | `ResourceDetailPage` | One resource; enforces licensing display rules |
-| `/saved` | `SavedPage` | Locally bookmarked situations + resources |
-| `/profile` | `Profile` | Language switch, age-group switch, saved link, about/contact/privacy |
+| `/books/:bookId` | `BookDetail` | Book Hub: bibliographic detail + grouped companion resources |
+| `/my` | `MySpace` | Saved / Recent / Reflections / Settings tabs |
 
-Backward-compatible redirects exist for the pre-restructure route names
-(`/moment/:topic` → `/situation/:topic`, `/explore*` → `/library`, `/more` →
-`/profile`) so any previously-shared deep link keeps working.
+Backward-compatible redirects exist for every pre-Phase-4 route name
+(`/learn` → `/discover?mode=topics`, `/practice*` → `/activities*`,
+`/library` → `/discover` (preserving `?q=`), `/explore*` → `/discover`,
+`/moment/:topic*` → `/situation/:topic`, `/saved` → `/my?tab=saved`,
+`/profile`/`/more` → `/my`) so any previously-shared deep link keeps
+working — see the full table in
+[frontend-information-architecture.md](./frontend-information-architecture.md#backward-compatible-redirects)
+and the tests in `src/App.test.tsx`.
 
 ## The situation page (`src/pages/SituationPage.tsx`)
 
@@ -46,12 +71,14 @@ This is the page a parent spends the most time on. Section order:
    a "more helpful" one, with a read-aloud button (`src/utils/speak.ts`,
    Web Speech API, locale-aware voice).
 5. **了解背后的 SEL 能力 (Learn)** — chips linking to the relevant SEL
-   competencies on `/learn`.
+   competencies.
 6. **一起练习 (Practice)** — a single button into the linked
-   `/practice/:id` activity, if the situation has one.
+   `/activities/:id` activity, if the situation has one.
 7. **相关资源 (Related resources)** — resources tagged with this topic,
    fetched through `getContentProvider()` so licensing filtering always
-   applies (see [content-model.md](./content-model.md)).
+   applies (see [content-model.md](./content-model.md)) — plus related
+   books via `booksForTopic()` (see
+   [book-content-architecture.md](./book-content-architecture.md)).
 8. **记录一点发现 (Reflect)** — a private, local-only note field
    (`src/hooks/useReflections.ts`); no child-identifying information is
    collected or requested.
@@ -63,17 +90,20 @@ Content here is **age-aware**: the five flagship journeys
 single default write-up. See [content-model.md](./content-model.md) for how
 that's modeled.
 
-## Library: browse vs. search
+## Discover: browse vs. search
 
-`/library` is a single page with two modes, controlled entirely by URL
-search params (`q`, `topic`, plus the `FilterContext` for type/setting/skill
-filters):
+`/discover` is a single page with two states, controlled entirely by URL
+search params (`q`, `topic`, `mode`, plus the `FilterContext` for
+type/setting/skill filters):
 
-- **Browse** (no active query/topic/filters): four grouped shelves — by
-  challenge, by SEL competency, by age group, by resource type.
-- **Results**: a flat, filtered list from
-  `getContentProvider().searchResources(...)`.
+- **Browse** (no active query/topic/filters) — three switchable modes
+  (Topics, Stories, Resources); see
+  [frontend-information-architecture.md](./frontend-information-architecture.md#discover-srcpagesdiscovertsx)
+  for the full breakdown.
+- **Search results**: a flat, filtered list from
+  `getContentProvider().searchResources(...)` plus matching books from
+  `searchBooks(...)`.
 
-This merges what used to be two separate pages (`Explore.tsx` and
-`SearchResults.tsx`) into one, since the only real difference between them
-was "is a query active," not a different layout or data source.
+This merged what used to be two separate pages (`Learn.tsx`/`Library.tsx`)
+into one, since browsing and searching share the same underlying data and
+differ only in "is a query/filter active," not in layout or data source.

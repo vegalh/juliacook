@@ -64,7 +64,7 @@ export function FilterModal({ open, onClose, onShowResults }: FilterModalProps) 
 
         <section className="mb-6">
           <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted">
-            {t("library.byType")}
+            {t("discover.byType")}
           </h3>
           <div className="grid grid-cols-4 gap-2">
             {contentTypes.map(({ value, icon: Icon }) => {

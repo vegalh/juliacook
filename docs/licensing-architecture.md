@@ -46,9 +46,10 @@ forward:
   and only renders the bundled image asset if `isOfficiallyAuthorized()` is
   true. Until a real brand agreement and verified assets exist, flipping
   that env var would be incorrect.
-- `src/pages/Profile.tsx` renders an explicit, user-visible disclosure in
-  both languages: the app is "currently a development/demo build and is not
-  yet officially authorized or endorsed."
+- `src/pages/MySpace.tsx`'s Settings tab (formerly `src/pages/Profile.tsx`,
+  merged into My Space in Phase 4) renders an explicit, user-visible
+  disclosure in both languages: the app is "currently a development/demo
+  build and is not yet officially authorized or endorsed."
 
 ## Content licensing metadata (`src/content/types.ts`)
 

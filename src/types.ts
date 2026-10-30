@@ -36,6 +36,8 @@ export interface Resource {
   relatedResources?: string[];
   /** Link to the original, verified Julia Cook resource, when one exists. */
   sourceUrl?: string;
+  /** Id of the richer `JuliaCookBook` record (src/data/books/) this resource corresponds to, when `type` is "book". */
+  bookId?: string;
   licensing: LicensingMetadata;
 }
 
@@ -78,6 +80,13 @@ export interface ParentingSituation {
    * guidance mainly differs along that line, not across all four age groups.
    */
   ageVariants?: Partial<Record<AgeBucket, SituationContent>>;
+  /**
+   * Finer-grained developmental explanation for why a behavior shows up,
+   * broken out across all four age groups (not just the younger/older
+   * bucket used for respond/trySaying copy). Populated for the five
+   * flagship journeys only — see docs/content-model.md.
+   */
+  understandByAge?: Partial<Record<AgeGroup, { text: string; textZh: string }>>;
   /** One of the five fully-authored demonstration journeys from the product brief. */
   isFlagshipJourney: boolean;
 }
@@ -106,6 +115,12 @@ export interface Activity {
   parentLanguageZh: string;
   reflectionQuestions: string[];
   reflectionQuestionsZh: string[];
+  /** What the child may practice or notice about themselves — framed as a possibility, not a guarantee. */
+  childMayLearn?: string;
+  childMayLearnZh?: string;
+  /** A concrete cue for the parent to watch for during or after the activity. */
+  parentShouldNotice?: string;
+  parentShouldNoticeZh?: string;
   selCompetencies: SelCompetencyId[];
   topics: string[];
   licensing: LicensingMetadata;

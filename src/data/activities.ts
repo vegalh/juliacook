@@ -36,6 +36,10 @@ export const activities: Activity[] = [
       "Is there anything you'd like to add to the box?",
     ],
     reflectionQuestionsZh: ["今天哪个工具最有用？", "你想往盒子里再加点什么吗？"],
+    childMayLearn: "That having a few concrete calming options on hand can make big feelings easier to ride out.",
+    childMayLearnZh: "手边有几个具体的\u201c冷静工具\u201d，可以让强烈的情绪变得更容易度过。",
+    parentShouldNotice: "Whether your child reaches for the box on their own, or still needs you to suggest it first.",
+    parentShouldNoticeZh: "留意孩子是会自己主动去拿工具箱，还是仍然需要你先提醒一下。",
     selCompetencies: ["self-management"],
     topics: ["getting-angry", "self-control"],
     licensing: ORIGINAL_DEMO,
@@ -67,6 +71,10 @@ export const activities: Activity[] = [
     parentLanguageZh: "\u201c我看到你的手势了，谢谢你等待。你想说什么？\u201d",
     reflectionQuestions: ["When did the signal work well today?", "Was it hard to wait? Why?"],
     reflectionQuestionsZh: ["今天手势在什么时候用得比较顺利？", "等待的时候觉得难吗？为什么？"],
+    childMayLearn: "That waiting a few seconds to speak doesn't mean losing the chance to be heard.",
+    childMayLearnZh: "等几秒钟再开口，并不意味着就没机会表达自己了。",
+    parentShouldNotice: "Moments when your child uses the signal without being reminded, even if it's rare at first.",
+    parentShouldNoticeZh: "留意孩子不需要提醒就主动用手势的时刻，哪怕一开始很少见。",
     selCompetencies: ["self-management", "relationship-skills"],
     topics: ["interrupting"],
     licensing: ORIGINAL_DEMO,
@@ -98,6 +106,10 @@ export const activities: Activity[] = [
     parentLanguageZh: "\u201c再玩两分钟，然后轮到你朋友了，我会帮你们交换。\u201d",
     reflectionQuestions: ["How did it feel to wait for your turn?", "How did it feel to give the toy to your friend?"],
     reflectionQuestionsZh: ["等待轮到自己是什么感觉？", "把玩具让给朋友是什么感觉？"],
+    childMayLearn: "That a turn given up now usually means a turn coming back around soon.",
+    childMayLearnZh: "现在让出去的轮次，通常很快又会轮到自己。",
+    parentShouldNotice: "Whether the countdown itself is enough, or your child still needs a hand during the handoff.",
+    parentShouldNoticeZh: "留意倒计时本身是否就够用了，还是孩子在交接玩具时仍然需要你搭把手。",
     selCompetencies: ["relationship-skills", "responsible-decision-making"],
     topics: ["sharing"],
     licensing: ORIGINAL_DEMO,
@@ -129,6 +141,10 @@ export const activities: Activity[] = [
     parentLanguageZh: "\u201c今天你尝试了什么勇敢的事，哪怕没有成功？\u201d",
     reflectionQuestions: ["What did you learn from today's attempt?", "What would you try differently next time?"],
     reflectionQuestionsZh: ["今天的尝试让你学到了什么？", "下次你会想换个方式试试看吗？"],
+    childMayLearn: "That trying is worth noticing on its own, separate from whether it worked out.",
+    childMayLearnZh: "\u201c尝试\u201d本身就值得被看见，和结果是否成功是两回事。",
+    parentShouldNotice: "Whether your child starts to offer up attempts unprompted, instead of only sharing successes.",
+    parentShouldNoticeZh: "留意孩子是否开始主动分享自己的尝试，而不只是分享做成功的事。",
     selCompetencies: ["self-awareness", "responsible-decision-making"],
     topics: ["fear-of-failure"],
     licensing: ORIGINAL_DEMO,
@@ -160,6 +176,10 @@ export const activities: Activity[] = [
     parentLanguageZh: "\u201c你觉得朋友当时是什么感受？明天你可以说什么？\u201d",
     reflectionQuestions: ["What do you want this friendship to look like going forward?", "What would help you feel better about this?"],
     reflectionQuestionsZh: ["你希望这段友谊以后是什么样子？", "怎样能让你对这件事感觉好一些？"],
+    childMayLearn: "That repairing a friendship can start with a short, specific phrase instead of a big apology.",
+    childMayLearnZh: "修复友谊不一定需要一场盛大的道歉，一句简短具体的话也可以是开始。",
+    parentShouldNotice: "Whether your child wants to rehearse the phrase more than once before feeling ready to use it.",
+    parentShouldNoticeZh: "留意孩子是否需要多练习几次这句话，才会觉得准备好说出口。",
     selCompetencies: ["social-awareness", "relationship-skills"],
     topics: ["friend-conflict"],
     licensing: ORIGINAL_DEMO,
@@ -172,4 +192,16 @@ export function getActivityById(id: string): Activity | undefined {
 
 export function activitiesForAgeGroup(ageGroup: string): Activity[] {
   return activities.filter((a) => a.suggestedAge.includes(ageGroup as Activity["suggestedAge"][number]));
+}
+
+/** True when an activity needs no special materials beyond what's already at home. */
+export function activityNeedsNoMaterials(activity: Activity): boolean {
+  return activity.materials.length <= 1 && /none required|无需材料/i.test(activity.materials.join(""));
+}
+
+/** True when an activity can be done in 10 minutes or less (parses the leading number in `timeRequired`). */
+export function isQuickActivity(activity: Activity): boolean {
+  const match = activity.timeRequired.match(/\d+/);
+  if (!match) return false;
+  return Number(match[0]) <= 10;
 }

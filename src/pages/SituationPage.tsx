@@ -1,44 +1,72 @@
 import { ArrowLeft, Frown, Volume2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from "../components/AppLayout";
+import { BookCard } from "../components/BookCard";
 import { Header } from "../components/Header";
 import { Logo } from "../components/Logo";
+import { ParentLanguageExplorer } from "../components/ParentLanguageExplorer";
 import { ResourceCard } from "../components/ResourceCard";
 import { SaveButton } from "../components/SaveButton";
 import { useAgeGroup } from "../context/AgeGroupContext";
 import { getContentProvider } from "../content/ContentProvider";
+import { ageGroups, type AgeGroup } from "../data/ageGroups";
+import { booksForTopic } from "../data/books";
+import { flagshipScenarioFor } from "../data/languageScenarios";
 import { getCompetency } from "../data/selCompetencies";
 import { getSituation, resolveSituationContent } from "../data/situations";
 import { topicLabel } from "../data/topics";
 import { useReflections } from "../hooks/useReflections";
+import { useRecentlyViewed } from "../hooks/useRecentlyViewed";
 import { useSavedResources } from "../hooks/useSavedResources";
 import { useLocale } from "../i18n";
 import { speak } from "../utils/speak";
+
+const ageGroupLabels: Record<AgeGroup, { en: string; zh: string }> = {
+  "3-6": { en: "Ages 3-6", zh: "3-6 岁" },
+  "6-10": { en: "Ages 6-10", zh: "6-10 岁" },
+  "10-12": { en: "Ages 10-12", zh: "10-12 岁" },
+  "13+": { en: "Ages 13+", zh: "13 岁以上" },
+};
 
 export function SituationPage() {
   const { topic = "getting-angry" } = useParams();
   const navigate = useNavigate();
   const { locale, t } = useLocale();
-  const { ageBucket } = useAgeGroup();
+  const { ageGroup: globalAgeGroup, ageBucket } = useAgeGroup();
   const { isSaved, toggleSaved } = useSavedResources();
   const { reflectionsForTopic, saveReflection } = useReflections();
+  const { recordView } = useRecentlyViewed();
   const [note, setNote] = useState("");
   const [justSaved, setJustSaved] = useState(false);
+  const [understandAgeGroup, setUnderstandAgeGroup] = useState<AgeGroup>(globalAgeGroup);
 
   const situation = getSituation(topic);
   const content = resolveSituationContent(situation, ageBucket);
   const situationId = `situation:${topic}`;
   const relatedResources = getContentProvider().resourcesForTopic(topic);
+  const relatedBooks = booksForTopic(topic);
   const savedReflections = reflectionsForTopic(topic);
   const speechLang = locale === "zh" ? "zh-CN" : "en-US";
+  const flagshipScenario = flagshipScenarioFor(topic, ageBucket);
 
   const heading = locale === "zh" ? content.headingZh : content.heading;
-  const understand = locale === "zh" ? content.understandZh : content.understand;
+  const ageSpecificUnderstand = situation.understandByAge?.[understandAgeGroup];
+  const understand = ageSpecificUnderstand
+    ? locale === "zh"
+      ? ageSpecificUnderstand.textZh
+      : ageSpecificUnderstand.text
+    : locale === "zh"
+      ? content.understandZh
+      : content.understand;
   const respond = locale === "zh" ? content.respondZh : content.respond;
   const trySayingLess = locale === "zh" ? content.trySaying.lessHelpfulZh : content.trySaying.lessHelpful;
   const trySayingMore = locale === "zh" ? content.trySaying.moreHelpfulZh : content.trySaying.moreHelpful;
   const reflectPrompt = locale === "zh" ? situation.reflectPromptZh : situation.reflectPrompt;
+
+  useEffect(() => {
+    recordView("situation", topic);
+  }, [topic, recordView]);
 
   const handleSaveReflection = () => {
     saveReflection(topic, note);
@@ -76,7 +104,27 @@ export function SituationPage() {
         {/* Understand */}
         <section className="mt-5 rounded-3xl bg-light-blue p-5">
           <h2 className="font-serif text-lg font-bold text-navy">{t("situation.understandTitle")}</h2>
-          <p className="mt-2 text-sm leading-relaxed text-navy/80">{understand}</p>
+          {situation.understandByAge && (
+            <div className="mt-3 flex gap-1.5 overflow-x-auto no-scrollbar">
+              {ageGroups.map((group) => {
+                const selected = understandAgeGroup === group;
+                return (
+                  <button
+                    key={group}
+                    type="button"
+                    onClick={() => setUnderstandAgeGroup(group)}
+                    aria-pressed={selected}
+                    className={`min-h-9 shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                      selected ? "bg-blue text-white" : "bg-white/70 text-navy/70"
+                    }`}
+                  >
+                    {locale === "zh" ? ageGroupLabels[group].zh : ageGroupLabels[group].en}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          <p className="mt-3 text-sm leading-relaxed text-navy/80">{understand}</p>
         </section>
 
         {/* Respond */}
@@ -97,30 +145,36 @@ export function SituationPage() {
         {/* Try saying */}
         <section className="mt-5">
           <h2 className="font-serif text-lg font-bold text-navy">{t("situation.trySayingTitle")}</h2>
-          <div className="mt-2 flex flex-col gap-3">
-            <div className="rounded-2xl bg-white p-4 shadow-[0_2px_10px_rgba(23,43,77,0.06)]">
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-                {t("situation.trySayingLessHelpful")}
-              </p>
-              <p className="mt-1 text-sm text-navy/60 line-through decoration-navy/30">{trySayingLess}</p>
+          {flagshipScenario ? (
+            <div className="mt-2">
+              <ParentLanguageExplorer key={flagshipScenario.id} scenario={flagshipScenario} />
             </div>
-            <div className="flex items-start justify-between gap-3 rounded-2xl bg-light-turquoise p-4">
-              <div className="min-w-0">
+          ) : (
+            <div className="mt-2 flex flex-col gap-3">
+              <div className="rounded-2xl bg-white p-4 shadow-[0_2px_10px_rgba(23,43,77,0.06)]">
                 <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-                  {t("situation.trySayingMoreHelpful")}
+                  {t("situation.trySayingLessHelpful")}
                 </p>
-                <p className="mt-1 font-serif text-base leading-snug text-navy">{trySayingMore}</p>
+                <p className="mt-1 text-sm text-navy/60 line-through decoration-navy/30">{trySayingLess}</p>
               </div>
-              <button
-                type="button"
-                aria-label={t("common.readAloud")}
-                onClick={() => speak(trySayingMore, speechLang)}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-turquoise"
-              >
-                <Volume2 size={18} />
-              </button>
+              <div className="flex items-start justify-between gap-3 rounded-2xl bg-light-turquoise p-4">
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+                    {t("situation.trySayingMoreHelpful")}
+                  </p>
+                  <p className="mt-1 font-serif text-base leading-snug text-navy">{trySayingMore}</p>
+                </div>
+                <button
+                  type="button"
+                  aria-label={t("common.readAloud")}
+                  onClick={() => speak(trySayingMore, speechLang)}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-turquoise"
+                >
+                  <Volume2 size={18} />
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </section>
 
         {/* Learn */}
@@ -134,7 +188,7 @@ export function SituationPage() {
                 <button
                   key={id}
                   type="button"
-                  onClick={() => navigate("/learn")}
+                  onClick={() => navigate("/discover?mode=topics")}
                   className="min-h-11 rounded-full bg-light-turquoise px-4 py-2.5 text-sm font-medium text-navy"
                 >
                   {locale === "zh" ? competency.labelZh : competency.labelEn}
@@ -150,7 +204,7 @@ export function SituationPage() {
             <h2 className="font-serif text-lg font-bold text-navy">{t("situation.practiceTitle")}</h2>
             <button
               type="button"
-              onClick={() => navigate(`/practice/${situation.practiceActivityId}`)}
+              onClick={() => navigate(`/activities/${situation.practiceActivityId}`)}
               className="mt-2 min-h-11 w-full rounded-full bg-turquoise py-4 text-base font-semibold text-white"
             >
               {t("situation.playDesc")}
@@ -167,6 +221,20 @@ export function SituationPage() {
             <div className="mt-2 flex flex-col gap-3">
               {relatedResources.map((resource) => (
                 <ResourceCard key={resource.id} resource={resource} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Related books */}
+        <section className="mt-5">
+          <h2 className="font-serif text-lg font-bold text-navy">{t("book.relatedBooksTitle")}</h2>
+          {relatedBooks.length === 0 ? (
+            <p className="mt-2 text-sm text-muted">{t("book.relatedBooksEmpty")}</p>
+          ) : (
+            <div className="mt-2 flex flex-col gap-3">
+              {relatedBooks.map((book) => (
+                <BookCard key={book.id} book={book} />
               ))}
             </div>
           )}

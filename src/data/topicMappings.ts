@@ -84,7 +84,9 @@ export const topicMappings: TopicMapping[] = [
     slug: "sharing",
     label: "Sharing",
     labelZh: "不愿意分享",
-    educationalTopics: [],
+    // Verified against the live tag list on "Teamwork Isn't My Thing and I Don't
+    // Like to Share" (juliacookonline.com, fetched 2026-10-11).
+    educationalTopics: ["sharing", "compromise", "give and take", "teamwork", "working together"],
     keywords: ["share", "sharing", "won't share", "wont share", "selfish with toys"],
     keywordsZh: ["分享", "不愿意分享", "不肯分享", "不想分享", "小气", "独占玩具"],
   },
@@ -92,7 +94,10 @@ export const topicMappings: TopicMapping[] = [
     slug: "fear-of-failure",
     label: "Fear of Failure",
     labelZh: "害怕失败",
-    educationalTopics: [],
+    // Verified against the live tag list on "Bubble Gum Brain" (juliacookonline.com,
+    // fetched 2026-10-11). Note "growth mindset" is a real tag on that book even
+    // though it doesn't appear in the site's aggregate topic-cloud page.
+    educationalTopics: ["growth mindset", "flexibility", "positive mindset", "making mistakes"],
     keywords: [
       "afraid to fail",
       "fear of failure",
@@ -123,7 +128,9 @@ export const topicMappings: TopicMapping[] = [
     slug: "excluded-by-peers",
     label: "Excluded by Peers",
     labelZh: "被同学排挤",
-    educationalTopics: [],
+    // Verified against the live tag list on "Cliques Just Don't Make Cents"
+    // (juliacookonline.com, fetched 2026-10-11).
+    educationalTopics: ["cliques", "mean girls", "targeting", "self-worth", "peer pressure"],
     keywords: ["left out", "excluded", "no one plays with", "isolated"],
     keywordsZh: ["被排挤", "被孤立", "没人跟他玩", "被同学排斥", "被欺负"],
   },
@@ -131,7 +138,12 @@ export const topicMappings: TopicMapping[] = [
     slug: "school-reluctance",
     label: "Reluctant About School",
     labelZh: "不愿意上学",
-    educationalTopics: [],
+    // Verified against the live tag list on "The Anti-Test Anxiety Society"
+    // (juliacookonline.com, fetched 2026-10-11). NOTE: these tags are specifically
+    // about test-taking anxiety, a narrower problem than general reluctance to
+    // attend school — see docs/content-research-gaps.md for why this is labeled
+    // a hypothesis, not a confirmed match.
+    educationalTopics: ["test anxiety", "performance anxiety", "testing", "taking tests"],
     keywords: ["doesn't want to go to school", "refuses school", "school anxiety"],
     keywordsZh: ["不愿意上学", "不想上学", "抗拒上学", "害怕上学"],
   },
@@ -139,7 +151,9 @@ export const topicMappings: TopicMapping[] = [
     slug: "procrastination",
     label: "Procrastination",
     labelZh: "总是拖延",
-    educationalTopics: [],
+    // Verified against the live tag list on "The PROcrastinator" (juliacookonline.com,
+    // fetched 2026-10-11).
+    educationalTopics: ["procrastinating", "putting things off", "executive function", "balancing work & play"],
     keywords: ["procrastinate", "procrastinating", "always delays", "puts things off"],
     keywordsZh: ["拖延", "磨蹭", "总是拖拖拉拉", "不写作业", "拖到最后"],
   },
@@ -147,7 +161,12 @@ export const topicMappings: TopicMapping[] = [
     slug: "low-confidence",
     label: "Low Confidence",
     labelZh: "缺乏自信",
-    educationalTopics: [],
+    // Verified against the live tag list on "I Got This! I Have Bounce Back
+    // Superpowers" (juliacookonline.com, fetched 2026-10-11). An earlier
+    // candidate, "How To Be Comfortable in Your Own Feathers," was rejected
+    // for this slug after its tags showed it is specifically an eating-disorder/
+    // body-image book, not a general-confidence book — see docs/content-research-gaps.md.
+    educationalTopics: ["resilience", "overcoming obstacles", "talk back to worry"],
     keywords: ["low confidence", "self-doubt", "doesn't believe in themselves"],
     keywordsZh: ["缺乏自信", "不自信", "自卑", "没有自信心"],
   },
@@ -155,6 +174,11 @@ export const topicMappings: TopicMapping[] = [
     slug: "teen-communication",
     label: "Teen Won't Talk",
     labelZh: "青少年不愿意沟通",
+    // No matching official educational topic tag or book was identified during
+    // Phase 3 research (checked both the live tag cloud and the closest
+    // candidate title, "Table Talk," which turned out to be about table
+    // manners/etiquette, not teen withdrawal). Left empty — see
+    // docs/content-research-gaps.md.
     educationalTopics: [],
     keywords: ["teen won't talk", "shuts down", "won't open up", "teenager communication"],
     keywordsZh: ["青少年不愿意和父母沟通", "不愿意沟通", "不说话", "沉默", "亲子沟通"],
