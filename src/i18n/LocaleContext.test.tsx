@@ -12,10 +12,18 @@ describe("LocaleContext", () => {
     localStorage.clear();
   });
 
-  it("defaults to Simplified Chinese", () => {
+  it("defaults to English", () => {
     const { result } = renderHook(() => useLocale(), { wrapper });
+    expect(result.current.locale).toBe("en");
+    expect(result.current.t("nav.home")).toBe("Home");
+  });
+
+  it("switches to Simplified Chinese and persists the choice", () => {
+    const { result } = renderHook(() => useLocale(), { wrapper });
+    act(() => result.current.setLocale("zh"));
     expect(result.current.locale).toBe("zh");
     expect(result.current.t("nav.home")).toBe("首页");
+    expect(localStorage.getItem("cookie-bytes:locale")).toBe("zh");
   });
 
   it("switches to English and persists the choice", () => {
