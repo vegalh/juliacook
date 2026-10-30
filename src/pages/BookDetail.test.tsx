@@ -28,6 +28,9 @@ function renderWithProviders(initialPath: string) {
 
 beforeEach(() => {
   localStorage.clear();
+  // These tests assert Chinese copy; the app itself now defaults to
+  // English, so pin the locale explicitly rather than relying on the default.
+  localStorage.setItem("cookie-bytes:locale", "zh");
 });
 
 afterEach(() => {

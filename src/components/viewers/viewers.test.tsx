@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { LocaleProvider } from "../../i18n";
 import { AudioPlayerViewer } from "./AudioPlayerViewer";
 import { PdfViewer } from "./PdfViewer";
@@ -12,6 +12,16 @@ import { Headphones } from "lucide-react";
 function withLocale(ui: React.ReactElement) {
   return render(<LocaleProvider>{ui}</LocaleProvider>);
 }
+
+beforeEach(() => {
+  // These tests assert Chinese copy; the app itself now defaults to
+  // English, so pin the locale explicitly rather than relying on the default.
+  localStorage.setItem("cookie-bytes:locale", "zh");
+});
+
+afterEach(() => {
+  localStorage.clear();
+});
 
 describe("ViewerUnavailable", () => {
   it("renders the icon, title and unavailable note", () => {

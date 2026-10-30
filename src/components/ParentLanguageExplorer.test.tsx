@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LocaleProvider } from "../i18n";
 import { standaloneLanguageScenarios } from "../data/languageScenarios";
 import { ParentLanguageExplorer } from "./ParentLanguageExplorer";
@@ -12,6 +12,16 @@ function wrapper({ children }: { children: ReactNode }) {
 const scenario = standaloneLanguageScenarios.find((s) => s.id === "spilled-water")!;
 
 describe("ParentLanguageExplorer", () => {
+  beforeEach(() => {
+    // These tests assert Chinese copy; the app itself now defaults to
+    // English, so pin the locale explicitly rather than relying on the default.
+    localStorage.setItem("cookie-bytes:locale", "zh");
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+  });
+
   it("shows the situation and prompt, with no feedback until a choice is made", () => {
     render(<ParentLanguageExplorer scenario={scenario} />, { wrapper });
     expect(screen.getByText(scenario.situationLineZh)).toBeInTheDocument();
